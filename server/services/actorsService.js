@@ -5,13 +5,13 @@ import { saveComment, getComment } from "./commentService.js"
 const API_URL = config.api.tvmazeUrl 
 
 export const fetchAndCacheCast = async () => {
-  try {
-    const response = await fetch(API_URL);
-    setCache(response.data);
-    return response.data;
-  } catch (error) {
-    throw new Error(`Failed to fetch from TVMaze API.`);
+  const response = await fetch(API_URL)
+  if (!response.ok) {
+    throw new Error(`Failed to fetch from TVMaze API. Status: ${response.status}`);
   }
+  const data = await response.json()
+  setCache(data)
+  return data
 }
 
 export const getCast = async () => {
@@ -49,3 +49,4 @@ export const getActorComment = (id) => {
   // validate id (?)
   return getComment(id)
 }
+
