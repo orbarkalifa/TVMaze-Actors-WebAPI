@@ -15,6 +15,7 @@ const ActorDetails = ({ actor, onActorDeleted }) => {
         const response = await getActorComment(actor.id)
         setComment(response.data || '')
       } catch (error) {
+        console.error(error);
         setError(error.message)
       } finally {
         setLoading(false)
@@ -35,6 +36,7 @@ const ActorDetails = ({ actor, onActorDeleted }) => {
         setNewComment('')
       }
     } catch (error) {
+      console.error(error);
       setError(error.message)
     } finally {
       setLoading(false)
@@ -45,11 +47,10 @@ const ActorDetails = ({ actor, onActorDeleted }) => {
     try {
       setLoading('Deleting actor...')
       setError(null)
-      const response = await deleteActor(actor.id)
-      if (response.ok){
-        console.log("Actor deleted successfully");
-      }
+      await deleteActor(actor.id)
+      onActorDeleted(actor.id);
     } catch (error) {
+      console.error(error);
       setError(error.message)
     } finally {
       setLoading('')
