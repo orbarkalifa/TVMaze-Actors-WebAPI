@@ -1,0 +1,26 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# IDE and editor configuration
+.vscode/
+
+# Dependencies
+server/node_modules/
+client/node_modules/
+
+# Environment variables
+server/.env
+server/.env.local
+server/.env.development
+server/.env.production
+client/.env
+client/.env.local
+client/.env.development
+client/.env.production
+
+# Compiled output
+server/dist/
+server/build/
+client/build/
+client/dist/
