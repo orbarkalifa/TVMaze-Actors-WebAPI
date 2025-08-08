@@ -1,40 +1,58 @@
 import { useState, useEffect } from 'react'
-import { getActorComment, addActorComment } from '../services/api.js'
+import { getActorComment, addActorComment, deleteActor } from '../services/api.js'
 
-const ActorDetails = ({actor}) => {
+const ActorDetails = ({ actor, onActorDeleted }) => {
   const [comment, setComment] = useState('')
   const [newComment, setNewComment] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState('true')
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchComments = async () => {
+    const fetchComment = async () => {
       try {
+        setError(null)
+        setLoading('Fetching comment...')
         const response = await getActorComment(actor.id)
-        if (response && response.data) {
-          setComment(response.data)
-        }
+        setComment(response.data || '')
       } catch (error) {
         setError(error.message)
       } finally {
         setLoading(false)
       }
     }
-    fetchComments()
-  },[])
+    fetchComment()
+  },[actor.id])
 
   const handleSubmitComment = async (event) => {
     event.preventDefault();
     try {
-      const response = await addActorComment(id, newComment)
+      setError(null)
+      setLoading('Posting new comment...')
+      const response = await addActorComment(actor.id, newComment)
       const savedComment = response.data
       if (savedComment) {
         setComment(savedComment)
+        setNewComment('')
       }
     } catch (error) {
       setError(error.message)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleDeleteFromCache = async () => {
+    try {
+      setLoading('Deleting actor...')
+      setError(null)
+      const response = await deleteActor(actor.id)
+      if (response.ok){
+        console.log("Actor deleted successfully");
+      }
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setLoading('')
     }
   }
 
@@ -47,23 +65,34 @@ const ActorDetails = ({actor}) => {
         <p><strong>ID:</strong> {actor.id}</p>
         <p><strong>Birthday:</strong> {actor.birthday}</p>
         <p><strong>Gender: </strong> {actor.gender}</p>
+        {loading && (
+          <div>Loading comments...</div>
+        )}
+        {error && (
+          <div>Error loading comments</div>
+        )}
+        {!loading && !error && comment ? (
+          <p><strong>Comment:</strong> {comment}</p>
+        ) : (
+          <p>No comment yet.</p>
+        )}
+        <form onSubmit={handleSubmitComment}>
+          <div className="input-group">
+              <textarea 
+                className="form-control"
+                placeholder="Add a comment"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              <button className="btn btn-outline-secondary">Button</button>
+          </div>
+        </form>
       </div>
-      {comment ? (
-        <p><strong>Comment:</strong> {comment}</p>
-      ) : (
-        <p>No comment yet.</p>
-      )}
-      <form onSubmit={handleSubmitComment}></form>
-      <div className="input-group mx-4 my-2">
-        <input
-          className="form-control"
-          placeholder="Add a comment"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-        />
-          <button className="btn btn-outline-secondary" type="button">Button</button>
+      <div className='card-footer'>
+        <button className="btn btn-danger" onClick={handleDeleteFromCache}>
+          Delete Actor
+        </button>
       </div>
-
     </div>
   )
 }

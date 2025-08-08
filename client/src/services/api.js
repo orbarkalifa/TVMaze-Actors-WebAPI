@@ -7,11 +7,17 @@ export const getCastData = async () => {
   return response.data;
 };
 
-export const addActorComment = async () => {
-  return true
+export const addActorComment = async (id, comment) => {
+  const response = await axios.post(`${API_BASE_URL}/${id}/comment`, {comment})
+  return response.data
 }
 
-export const getActorComment = async () => {
-  return {comment: "MOCK COMMENT"}
+export const getActorComment = async (id) => {
+  const response = await axios.get(`${API_BASE_URL}/${id}/comment`)
+  return response.data
 }
 
+export const deleteActor = async (id) => {
+  const response = await axios.delete(`${API_BASE_URL}/${id}`)
+  return response
+}
