@@ -1,7 +1,8 @@
+import config from '../config.js';
 import { getCache, setCache } from "./cacheService.js"
 import { saveComment, getComment } from "./commentService.js"
 
-const API_URL = process.env.EXT_API_URL 
+const API_URL = config.api.tvmazeUrl 
 
 export const fetchAndCacheCast = async () => {
   const response = await fetch(API_URL)
@@ -10,36 +11,33 @@ export const fetchAndCacheCast = async () => {
   }
   const data = await response.json()
   setCache(data)
-  console.log("Cast fetched and cache populated");
   return data
 }
 
 export const getCast = async () => {
   const cast = getCache()
   if (cast) {
-    console.log("Cache hit");
     return cast
   }
-  console.log("Cache miss");
   return await fetchAndCacheCast()  
 }
 
 export const deleteActor = (id) => {
   const cachedCast = getCache()
   if (!cachedCast) {
-    console.log('Cache is empty, nothing to delete');
-    
-  } else {
-    const characterExistsInCache = cachedCast.some(c => c.person.id.toString() === id);
-    if (!characterExistsInCache) {
-      const notFoundError = new Error(`Character with ID ${id} not found.`);
-      notFoundError.status = 404;
-      throw notFoundError; 
-    }
-    const updatedCast = cachedCast.filter(c => c.person.id.toString() !== id);
-    setCache(updatedCast);
-    console.log(`Character ${id} removed from cache.`);
+    const notFoundError = new Error(`Cannot delete. Character with ID ${id} not found.`);
+    notFoundError.status = 404;
+    throw notFoundError; 
   }
+
+  const characterExistsInCache = cachedCast.some(c => c.person.id.toString() === id);
+  if (!characterExistsInCache) {
+    const notFoundError = new Error(`Character with ID ${id} not found.`);
+    notFoundError.status = 404;
+    throw notFoundError; 
+  }
+  const updatedCast = cachedCast.filter(c => c.person.id.toString() !== id);
+  setCache(updatedCast);
 }
 
 export const addActorComment = (id, comment) => {

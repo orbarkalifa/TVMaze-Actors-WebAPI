@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import config from './config.js'
 import express from 'express'
 import cors from 'cors'
 import castRoute from './routes/castRoute.js'
@@ -7,7 +7,7 @@ import errorHandler from './middleware/errorMiddleware.js'
 
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = config.server.port;
 
 app.use(cors());
 app.use(express.json());

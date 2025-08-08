@@ -1,6 +1,7 @@
+import config from '../config.js';
 import NodeCache from 'node-cache'
 
-const CACHE_TTL = process.env.CACHE_TTL || 300
+const CACHE_TTL = config.cache.ttl;
 
 const client = new NodeCache({stdTTL: CACHE_TTL})
 

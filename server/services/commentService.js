@@ -1,7 +1,9 @@
+import config from '../config.js';
 import { Low, JSONFile } from 'lowdb'
 import path from 'path';
 
-const FILE_PATH = process.env.COMMENTS_FILE_PATH
+const FILE_PATH = config.db.path;
+
 const file = path.join(process.cwd(), FILE_PATH)
 const adapter = new JSONFile(file)
 const db = new Low(adapter)

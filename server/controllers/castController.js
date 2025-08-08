@@ -10,11 +10,11 @@ export const handleGetCast = async (req, res, next) => {
   }
 }
 
-export const handleAddActorComment = async (req, res, next) => {
+export const handleAddActorComment = (req, res, next) => {
   try {
     const { id } = req.params
     const { comment } = req.body
-    await actorService.addActorComment(id, comment)
+    actorService.addActorComment(id, comment)
     res.status(200).json({data: comment})
   } catch (error) {
     console.error("Error adding actor comment:", error);
@@ -33,11 +33,11 @@ export const handleGetActorComment = async (req,res, next) => {
   }
 }
 
-export const handleDeleteActor = async (req,res,next) => {
+export const handleDeleteActor = (req,res,next) => {
   try {
     const { id } = req.params
-    await actorService.deleteActor(id)
-    res.status(200).json({message: "Actor deleted"})
+    actorService.deleteActor(id)
+    res.status(204).send()
   } catch (error) {
     console.error("Error deleting actor from cache:", error)
     next(error)
