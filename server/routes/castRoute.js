@@ -1,8 +1,8 @@
 import express from 'express'
-import { getCast } from '../controllers/castController.js'
+import { handleGetCast } from '../controllers/castController.js'
 
 const router = express.Router()
 
-router.get('/', getCast)
+router.get('/', handleGetCast)
 
 export default router

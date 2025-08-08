@@ -1,10 +1,8 @@
+import { getCast } from '../services/actorsService.js'
 
-const API_URL = process.env.EXT_API_URL 
-
-export const getCast = async (req, res) => {
+export const handleGetCast = async (req, res) => {
   try {
-    const response = await fetch(API_URL)
-    const data = await response.json()
+    const data = await getCast()
     console.log(data);
     res.status(200).json({ data: data })
   } catch (error) {

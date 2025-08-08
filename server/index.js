@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import castRoute from './routes/castRoute.js'
+import { fetchAndCacheCast } from './services/actorsService.js'
 
 
 const app = express();
@@ -15,3 +16,5 @@ app.use('/api', castRoute)
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+fetchAndCacheCast()
