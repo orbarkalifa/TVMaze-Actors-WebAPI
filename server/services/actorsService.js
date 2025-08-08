@@ -5,8 +5,12 @@ const API_URL = process.env.EXT_API_URL
 
 export const fetchAndCacheCast = async () => {
   const response = await fetch(API_URL)
+  if (!response.ok) {
+    throw new Error(`Failed to fetch from TVMaze API. Status: ${response.status}`);
+  }
   const data = await response.json()
   setCache(data)
+  console.log("Cast fetched and cache populated");
   return data
 }
 
@@ -17,31 +21,34 @@ export const getCast = async () => {
     return cast
   }
   console.log("Cache miss");
-  return await fetchAndCacheCast()
+  return await fetchAndCacheCast()  
 }
 
 export const deleteActor = (id) => {
-  const cast = getCache()
-  if (!cast) {
-    throw new Error("Cache is not available.");
-  }
-  const originalLength = cast.length;
-  const filteredCast = cast.filter((actor) => actor.person.id != id);
-  const newLength = filteredCast.length;
-
-  if (originalLength > newLength) {
-    setCache(filteredCast);
-  } 
-  else {
-    throw new Error("Actor was not found in cache")
+  const cachedCast = getCache()
+  if (!cachedCast) {
+    console.log('Cache is empty, nothing to delete');
+    
+  } else {
+    const characterExistsInCache = cachedCast.some(c => c.person.id.toString() === id);
+    if (!characterExistsInCache) {
+      const notFoundError = new Error(`Character with ID ${id} not found.`);
+      notFoundError.status = 404;
+      throw notFoundError; 
+    }
+    const updatedCast = cachedCast.filter(c => c.person.id.toString() !== id);
+    setCache(updatedCast);
+    console.log(`Character ${id} removed from cache.`);
   }
 }
 
 export const addActorComment = (id, comment) => {
+  // TODO: validate id
   saveComment(id,comment)
 }
 
 export const getActorComment = (id) => {
+  // TODO: validate id
   return getComment(id)
 }
 

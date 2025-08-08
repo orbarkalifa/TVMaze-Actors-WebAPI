@@ -1,7 +1,8 @@
 import { Low, JSONFile } from 'lowdb'
 import path from 'path';
 
-const file = path.join(process.cwd(),'db/comments.txt')
+const FILE_PATH = process.env.COMMENTS_FILE_PATH
+const file = path.join(process.cwd(), FILE_PATH)
 const adapter = new JSONFile(file)
 const db = new Low(adapter)
 
@@ -24,7 +25,6 @@ export const getComment = async (actorId) => {
 }
 
 export const deleteComment = async (actorId) => {
-  await db.read()
   if (db.data.comments[actorId]){
     delete db.data.comments[actorId];
     await db.write();
