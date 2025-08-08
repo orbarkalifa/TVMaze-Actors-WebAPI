@@ -13,8 +13,6 @@ const ActorsList = ({onSelected, selectedActor}) => {
         setError(null)
         setLoading(true)
         const data = await getCastData()
-        console.log(data);
-        
         setCast(data)
       } catch (error) {
         setError(error.message)        
@@ -37,7 +35,7 @@ const ActorsList = ({onSelected, selectedActor}) => {
           key={actor.person.id}
           onClick={() => onSelected(actor)}
         >
-         {actor.person.id} 
+         {actor.person.name} 
         </Button>
       ))}
     </div>

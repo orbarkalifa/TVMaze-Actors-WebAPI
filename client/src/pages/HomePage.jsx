@@ -7,22 +7,27 @@ const HomePage = () => {
   const [selectedActor, setSelectedActor] = useState(null)
 
   return (
-    <div className='container text-center'>
+    <div className='container mt-4'>
       <div className='row'>
-        <div className='col'>
+        <h1>Under the Dome - Cast</h1>
+        <div className='col-md-4'>
           <ActorsList
             onSelected={(actor) => setSelectedActor(actor)} 
             selectedActor={selectedActor?.person}
           />
         </div>
         
-        <div className='col'>
+        <div className='col-md-8'>
           {selectedActor ? (
             <ActorDetails
               actor={selectedActor.person}
             />
           ) : (
-            <h1>Select an actor from the list to show it's details</h1>
+            <div className='card'>
+              <div className='card-body text-center'>
+                <p className='text-muted'>Select an actor from the list to show it's details</p>
+              </div>
+            </div>
           )}  
         </div>
       </div>
