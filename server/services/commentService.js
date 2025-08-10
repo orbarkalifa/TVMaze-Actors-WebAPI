@@ -14,7 +14,7 @@ const initializeDatabase = async () => {
   await db.write(); 
 };
 
-initializeDatabase();
+await initializeDatabase();
 
 export const saveComment = async (actorId, comment) => {
   db.data.comments[actorId] = comment;
