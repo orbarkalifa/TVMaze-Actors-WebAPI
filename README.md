@@ -1,4 +1,4 @@
-# TVMaze Israeli Actors API & Client
+# TVMaze Actors API & Client
 
 This project is a full-stack application designed to fetch, display, and manage data about actors from the TVMaze API. It features a Node.js/Express backend that serves data to a React frontend, incorporating server-side caching, data validation, and the ability for users to add and delete comments for each actor.
 
@@ -55,15 +55,24 @@ To get the project running locally, follow these steps:
     cd ../client
     npm install
     ```
+4.  **Configure Backend Environment:**
+    Create a `.env` file in the `server` directory and populate it with the following variables. A `.env.example` file is provided.
+    
+    ```
+    PORT=3000
+    EXT_API_URL='https://api.tvmaze.com/shows/1/cast'
+    CACHE_TTL=300
+    COMMENTS_FILE_PATH=db/comments.json
+    ```
 
-4.  **Run the Server:**
+5.  **Run the Server:**
     (From the `server` directory)
     ```bash
     npm start
     ```
     The server will start on `http://localhost:3000`.
 
-5.  **Run the Client:**
+6.  **Run the Client:**
     (From the `client` directory, in a new terminal)
     ```bash
     npm run dev
