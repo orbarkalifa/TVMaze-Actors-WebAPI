@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { getCastData } from '../services/api'
 import ActorsList from '../components/ActorsList.jsx'
 import ActorDetails from '../components/ActorDetails.jsx'
+import notificationService from '../services/notificationService';
 
 
 const HomePage = () => {
@@ -18,7 +19,8 @@ const HomePage = () => {
         const data = await getCastData()
         setCast(data)
       } catch (error) {
-        setError(error.message)        
+        setError(error.message)  
+        notificationService.error(errorMessage)      
       } finally{
         setLoading(false)
       } 
@@ -27,8 +29,9 @@ const HomePage = () => {
   }, [])
 
   const handleActorDeleted = (actorId) => {
-    setCast(prevCast => prevCast.filter(actor => actor.person.id !== actorId));
+    setCast(prevCast => prevCast.filter(actor => actor.person.id !== actorId)); // optimistic ui
     setSelectedActor(null); 
+    getCastData().then(setCast).catch(setError); // background sync
   };
 
   if (loading) return <div>Loading...</div>
