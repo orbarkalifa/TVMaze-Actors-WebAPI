@@ -32,10 +32,10 @@ const HomePage = () => {
     getCastData().then(setCast).catch(setError); // background sync
   };
 
-  if (loading) return (<div class="alert alert-info" role="alert">
+  if (loading) return (<div className="alert alert-info" role="alert">
   Loading...
 </div>)
-  if (error) return (<div class="alert alert-danger" role="alert">
+  if (error) return (<div className="alert alert-danger" role="alert">
 Error: {error}</div>)
 
 
