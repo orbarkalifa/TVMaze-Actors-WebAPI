@@ -6,7 +6,6 @@ export const handleGetCast = async (req, res, next) => {
     const castData = await actorService.getCast()
     res.status(200).json(castData)
   } catch (error) {
-    console.error("Error in getCast service:", error.message);
     next(error); 
   }
 }
@@ -19,7 +18,6 @@ export const handleAddActorComment = async (req, res, next) => {
     await actorService.addActorComment(id, comment)
     res.status(201).json({text: comment})
   } catch (error) {
-    console.error("Error adding actor comment:", error);
     next(error)
   }
 }
@@ -31,7 +29,6 @@ export const handleGetActorComment = async (req,res, next) => {
     const data = await actorService.getActorComment(id)
     res.status(200).json({text: data})
   } catch (error) {
-    console.error("Error getting actor comment:", error);
     next(error)
   }
 }
@@ -43,7 +40,6 @@ export const handleDeleteActor = (req,res,next) => {
     actorService.deleteActor(id)
     res.status(204).send()
   } catch (error) {
-    console.error("Error deleting actor from cache:", error)
     next(error)
   }
 }
@@ -54,7 +50,6 @@ export const handleDeleteActorComment = async (req, res, next) => {
     await actorService.deleteActorComment(id)
     res.status(204).send()
   } catch (error) {
-    console.error("Error deleting actor comment:", error);
     next(error)
   }
 }

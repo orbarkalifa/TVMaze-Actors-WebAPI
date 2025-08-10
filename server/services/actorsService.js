@@ -15,19 +15,19 @@ export const fetchAndCacheCast = async () => {
 }
 
 export const getCast = async () => {
-  let cast = getCache()
+  let cast = getCache();
   if (!cast || cast?.length === 0) {
     cast = await fetchAndCacheCast()  
   }
-  return cast
-}
+  return cast;
+};
 
 export const deleteActor = (id) => {
   const cachedCast = getCache()
   const characterExistsInCache = cachedCast?.some(c => c.person.id.toString() === id);
 
   if (!cachedCast || !characterExistsInCache) {
-    const notFoundError = new Error(`Cache is empty or actor was not found in cache. skipping deletion.`);
+    const notFoundError = new Error(`Character with ID ${id} not found.`);
     notFoundError.status = 404;
     throw notFoundError; 
   }

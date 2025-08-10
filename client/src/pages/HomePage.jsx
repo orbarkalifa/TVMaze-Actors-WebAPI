@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { getCastData } from '../services/api'
 import ActorsList from '../components/ActorsList.jsx'
 import ActorDetails from '../components/ActorDetails.jsx'
-import notificationService from '../services/notificationService';
 
 
 const HomePage = () => {
@@ -20,7 +19,6 @@ const HomePage = () => {
         setCast(data)
       } catch (error) {
         setError(error.message)  
-        notificationService.error(errorMessage)      
       } finally{
         setLoading(false)
       } 
@@ -34,8 +32,12 @@ const HomePage = () => {
     getCastData().then(setCast).catch(setError); // background sync
   };
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error}</div>
+  if (loading) return (<div class="alert alert-info" role="alert">
+  Loading...
+</div>)
+  if (error) return (<div class="alert alert-danger" role="alert">
+Error: {error}</div>)
+
 
 
   return (

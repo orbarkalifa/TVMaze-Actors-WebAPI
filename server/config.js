@@ -8,7 +8,7 @@ const config = {
     tvmazeUrl: process.env.EXT_API_URL,
   },
   cache: {
-    // process.env values are strings, NodeCache needs a number.
+    // convert process.env string to number for NodeCache
     ttl: parseInt(process.env.CACHE_TTL, 10) || 300, 
   },
   db: {

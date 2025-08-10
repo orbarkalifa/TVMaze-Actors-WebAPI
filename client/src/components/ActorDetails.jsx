@@ -74,7 +74,7 @@ const ActorDetails = ({ actor, onActorDeleted }) => {
     notificationService.promise(promise, {
       pending: "Deleting actor comment...",
       success: "Comment deleted!",
-      error: ({ data }) => data.message,
+      error: "Error deleting comment",
     });
 
     try {
